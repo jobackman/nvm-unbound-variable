@@ -1,0 +1,26 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run nvm list in a script WITHOUT -u
+        run: ./without-u-opt.sh
+
+      - name: Run nvm list in a script with -u
+        run: ./with-u-opt.sh
+
+      - name: nvm debug
+        shell: bash
+        if: always()
+        run: |
+            source $HOME/.nvm/nvm.sh
+            nvm debug
